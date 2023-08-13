@@ -1,37 +1,27 @@
-from sqlalchemy import Column, Integer, String, DateTime, Table, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+# from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-user_library = Table(
-    'user_library',
-    Base.metadata,
-    Column('game_id', ForeignKey('games.id'), primary_key=True),
-    Column('user_id', ForeignKey('users.id'), primary_key=True),
-    extend_existing=True
-)
-
-shopping_cart = Table(
-    'shopping_cart',
-    Base.metadata,
-    Column('user_id', ForeignKey('users.id'), primary_key=True),
-    Column('game_id', ForeignKey('games.id'), primary_key=True),
-    extend_existing=True
-)
+# class User_library(Base):
+#     __tablename__='user_library'
+    
+#     id = Column(Integer(), primary_key=True)
+#     user_id = Column(Integer(), ForeignKey('users.id'), unique=True)
+#     game_id = Column(Integer(), ForeignKey('games.id'), unique=True)
+#     user = relationship('User', back_populates='library')
 
 # If multiple users are able to log into this app, would I need separate User and Users tables?
 class User(Base):
     __tablename__='users'
     
     id = Column(Integer(), primary_key=True)
-    first_name = Column(String())
-    last_name = Column(String())
-    username = Column(String())
-    email = Column(String(), unique=True)
-    
-    cart = relationship('Game', secondary=shopping_cart, back_populates='in_cart')
-    library = relationship('Game', secondary=user_library, back_populates='in_library')
+    first_name = Column(String(), nullable=False)
+    last_name = Column(String(), nullable=False)
+    username = Column(String(), unique=True, nullable=False)
+    email = Column(String(), unique=True, nullable=False)
+    # library = relationship('user_library', uselist=False, back_populates='users')
     
     def __repr__(self):
         return f"{self.id}:\n" \
@@ -51,9 +41,6 @@ class Game(Base):
     release_date = Column(DateTime())
     publisher = Column(String())
     price = Column(Integer())
-    
-    in_cart = relationship('User', secondary=shopping_cart, back_populates='cart')
-    in_library = relationship('User', secondary=user_library, back_populates='library')
     
     def __repr__(self):
         return f"Game id: {self.id}\n" \

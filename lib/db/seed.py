@@ -1,5 +1,4 @@
 # Build out already existing data to test methods
-# Utilize Python REPL to create a user
 
 from models import Game, User
 from datetime import datetime
@@ -13,6 +12,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 session.query(User).delete()
+session.query(Game).delete()
 
 games = [
     Game(
@@ -55,6 +55,7 @@ users = [
 ]
 
 session.bulk_save_objects(games)
+session.bulk_save_objects(users)
 session.commit()
 
 print("Seeding Complete!")
