@@ -13,18 +13,24 @@ class Main:
         self.main_menu()
         
     def main_menu(self):
-        print(">>> * Welcome to Vapor Game Library! * <<<")
-        print(" ")
-        print("1. Login")
-        print("2. Exit")
-        print(" ")
-        user_choice = input("Please select from the above options: ")
-        if user_choice == "1":
-            Main.handle_login(self, session)
-        elif user_choice == "2":
-            print("Thank you for using Vapor Library!")
-        else:
-            print("Invalid Entry: Please login to continue, or choose 2 to exit.")
+        while True:
+            print(">>> * Welcome to Vapor Game Library! * <<<")
+            print(" ")
+            print("1. Login")
+            print("2. Create Profile")
+            print("3. Exit")
+            print(" ")
+            user_choice = input("Please select one of the above options: ")
+            if user_choice == "1":
+                Main.handle_login(self, session)
+            elif user_choice == "2":
+                if create_user(session, User):
+                    continue
+            elif user_choice == "3":
+                print("Thank you for using Vapor Library!")
+                break
+            else:
+                print("Invalid Entry: Please login to continue, or choose 3 to exit.")
     
     def handle_login(self, session):
         while True:
@@ -33,13 +39,15 @@ class Main:
             existing_user = session.query(User).filter(User.username == user_username).first()
             
             if existing_user is None:
-                create_user()
+                print("Sorry, could not locate this username.")
+                print(" ")
+                go_back = input("Would you like to return to the main menu? (y/n): ")
+                if go_back.lower() == "y":
+                    Main.main_menu(self, session)
+                else:
+                    break
             else:
                 login_user(existing_user)
-            
-            retry = input("Do you want to retry logging in? (y/n): ")
-            if retry.lower() != "y":
-                break
 
 if __name__=='__main__':
     engine = create_engine('sqlite:///db/vapor_store.db')
