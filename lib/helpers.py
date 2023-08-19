@@ -1,15 +1,12 @@
-import re
+import re, sys
 from tabulate import tabulate
-from cli import Main
 
-def create_user(session, User, User_library):
+def create_user(session, User):
     email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     name_pattern = r'[A-Za-z][A-Za-z-]{2,}$'
     username_pattern = r'[a-zA-Z0-9]{6,}$'
     
     def add_user(session, user):
-        new_library = User_library(user=user)
-        user.library.append(new_library)
         session.add(user)
         session.commit()
     
@@ -55,58 +52,59 @@ def create_user(session, User, User_library):
         confirm = input("Is the information above correct? (y/n) >>> ")
         if confirm.lower() == "n":
             print("Profile was unable to be created. Returning to main menu...")
-            return True
+            break
         elif confirm.lower() == "y":
             add_user(session, User(first_name=first_name, last_name=last_name, email=email, username=username))
             menu_return = input("User profile created! Would you like to return to the main menu? (y/n) >>> ")
             if menu_return.lower() == "y":
-                return True
+                break
             else:
-                print("Thank you for using Vapor Game Library!")
-                return False      
+                print(">>> Thank you for using Vapor Game Library! <<<")
+                sys.exit()    
        
 # conditional statement if a use is already part of the user table
 
-def login_user(session, User, Game):
-    while User:
-        print(f"Welcome {User.username}!")
-        print(" ")
-        print("1. View Games Library") #Incomplete
-        print("2. View Available Games") # Complete
-        print("3. Add New Game to Library") # Incomplete
-        print("4. View User Profile") # Complete
-        print("5. Logout")
-        print(" ")
-        user_input = input('Please select from the options above >>> ')
-        if user_input == "1":
-            view_user_library()
-        elif user_input == "2":
-            view_available_games(session, User, Game)
-        elif user_input == "3":
-            add_game_to_user_library()
-        elif user_input == "4":
-            view_user_profile(User)
-        elif user_input == "5":
-            print("Returning to main menu...")
-            print(" ")
-            Main.main_menu()
-        else:
-            print("Invalid Entry: Please select one of the following options: ")
-            login_user(User)
-
-def view_user_library(session, User):
-    while User:
+def view_user_library(User):
+    while True:
+        user_games = []
+        headers = ["ID", "Name", "Genre", "Platform", "Release Date", "Publisher"]
         print(" ")
         print(f"Current game library for {User.username}: ")
+        print(" ")
+        for game in User.user_library:
+            user_games.append([
+                game.id,
+                game.name,
+                game.genre,
+                game.platform,
+                game.release_date,
+                game.publisher
+            ])
+        print(tabulate(user_games, headers=headers, tablefmt="pretty"))
+        print(" ")
+        return_input = input("Press Y to return to user menu, or press Q to quit >>> ")
+        if return_input.lower() == "y":
+            pass
+        elif return_input.lower() == "q":
+            print(" ")
+            print("Thank you for using Vapor Game Library!")
+            break
+        else:
+            print("Invalid Input: Returning to user menu...")
+            print(" ")
+            break
 
+# The below function is COMPLETED and TESTED
 def view_available_games(session, User, Game):
     while User:
         print(" ")
         print("Searching game catalogue...")
-        print(" ")
+        print("---------------------------------------")
         print("1. Display all games")
         print("2. Display games by platform")
-        print("3. Return to user menu")
+        print("3. Return to User Interface")
+        print("---------------------------------------")
+        print(" ")
         search_input = input("Please choose a search option >>> ")
         if search_input == "1":
             games = session.query(Game).all()
@@ -121,7 +119,21 @@ def view_available_games(session, User, Game):
                     game.release_date,
                     game.publisher
                 ])
+            print(" ")
             print(tabulate(game_data, headers=headers, tablefmt="pretty"))
+            print(" ")
+            return_input = input("Press Y to return to User Interface, or press Q to quit >>> ")
+            if return_input.lower() == "y":
+                return True
+            elif return_input.lower() == "q":
+                print(" ")
+                print(">>> Thank you for using Vapor Game Library! <<<")
+                print(" ")
+                sys.exit()
+            else:
+                print(" ")
+                print("Invalid Input: Returning to User Interface...")
+                return True
         elif search_input == "2":
             games = session.query(Game).all()
             headers = ["ID", "Name", "Genre", "Platform", "Release Date", "Publisher"]
@@ -137,19 +149,67 @@ def view_available_games(session, User, Game):
                         game.release_date,
                         game.publisher
                     ])
+            print(" ")
             print(tabulate(game_data, headers=headers, tablefmt="pretty"))
+            print(" ")
+            return_input = input("Press Y to return to User Interface, or press Q to quit >>> ")
+            if return_input.lower() == "y":
+                return True
+            elif return_input.lower() == "q":
+                print(" ")
+                print(">>> Thank you for using Vapor Game Library! <<<")
+                print(" ")
+                sys.exit()
+            else:
+                print(" ")
+                print("Invalid Input: Returning to User Interface...")
+                return True
         elif search_input == "3":
-            print("Returning to user menu...")
-            login_user(User)
+            print(" ")
+            print("Returning to User Interface...")
+            return True
         else:
-            print("Invalid Entry: Please select one of the following options: ")
-            view_available_games(session, User, Game)
+            print(" ")
+            print("Invalid Entry: Returning to User Interface...")
+            return True
 
-def add_game_to_user_library(session, User):
-    print(" ")
-    print("Please select a game by id number")
+def add_game_to_user_library(session, User, Game):
+    while User:
+        print(" ")
+        print("Please choose from the options below...")
+        print(" ")
+        print("1. Search for game by ID")
+        print("2. Search for game by name")
+        print("3. Return to user menu")
+        print(" ")
+        user_input = input("Please select the desired search option, or press 3 to return to the user menu >>> ")
+        if user_input == "1":
+            print(" ")
+            search_input = input("Please enter a valid game ID >>> ")
+            if session.query(Game).filter(Game.id == int(search_input)).first():
+                print("Adding game to library...")
+                User.user_library.append(Game)
+                print("Game Successfully Added to Library!")
+                print(" ")
+                repeat_input = input("Would you like to add another game? (y/n) >>> ")
+                if repeat_input.lower() == "y":
+                    continue
+                elif repeat_input.lower() == "n":
+                    print(" ")
+                    print("Returning to user menu...")
+                    print(" ")
+                    pass
+        elif user_input == "2":
+            pass
+        elif user_input == "3":
+            pass
+        else:
+            print("Invalid Entry: Please select an option 1-3")
+            add_game_to_user_library(User)
 
-def view_user_profile(User):
+# The below function is COMPLETE and TESTED
+def view_user_profile(self, User):
+    from cli import Main
     while User:
         headers = ["First Name", "Last Name", "Username", "Email"]
         user_data = []
@@ -160,18 +220,22 @@ def view_user_profile(User):
             User.email
         ])
         print(" ")
-        print(f"Account information for {User.username}: ")
+        print(" ")
+        print(" ")
+        print(f"*** Account information for {User.username} ***")
+        print("---------------------------------------")
         print(" ")
         print(tabulate(user_data, headers=headers, tablefmt="pretty"))
         print(" ")
-        return_input = input("Press Y to return to user menu, or press Q to quit >>> ")
+        return_input = input("Press Y to return to User Interface, or press Q to quit >>> ")
         if return_input.lower() == "y":
-            login_user(User)
+            return True
         elif return_input.lower() == "q":
             print(" ")
-            print("Thank you for using Vapor Game Library!")
-            break
+            print(">>> Thank you for using Vapor Game Library! <<<")
+            print(" ")
+            sys.exit()
         else:
             print("Invalid Input: Returning to main menu...")
             print(" ")
-            Main.main_menu()
+            Main.main_menu(self)

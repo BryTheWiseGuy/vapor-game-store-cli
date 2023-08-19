@@ -37,6 +37,17 @@ games = [
                 day=20
             ),
         publisher="Nintendo",
+    ),
+    Game(
+        name="Genshin Impact",
+        genre="Gacha",
+        platform="Multiple Platforms",
+        release_date=datetime(
+            year=2020,
+            month=1,
+            day=1
+        ),
+        publisher="Mihoyo"
     )
 ]
 
@@ -55,7 +66,11 @@ users = [
     )
 ]
 
-user_libraries=[User_library(user=users[0], game=games[0])]
+user_libraries=[
+    User_library(user=users[1], game=games[0]),
+    User_library(user=users[0], game=games[1]),
+    User_library(user=users[1], game=games[2])
+]
 
 session.add_all(games)
 session.add_all(users)
