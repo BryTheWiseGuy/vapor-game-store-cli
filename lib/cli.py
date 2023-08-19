@@ -2,7 +2,7 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db.models import User, Game
+from db.models import User, Game, User_library
 from helpers import create_user, login_user
 
 class Main:
@@ -24,7 +24,7 @@ class Main:
             if user_choice == "1":
                 Main.handle_login(self, session)
             elif user_choice == "2":
-                if create_user(session, User):
+                if create_user(session, User, User_library):
                     continue
             elif user_choice == "3":
                 print("Thank you for using Vapor Library!")
@@ -39,7 +39,7 @@ class Main:
             existing_user = session.query(User).filter(User.username == user_username).first()
             
             if existing_user is None:
-                print("Sorry, could not locate this username.")
+                print("Sorry, the username provided was not able to be located.")
                 print(" ")
                 go_back = input("Would you like to return to the main menu? (y/n): ")
                 if go_back.lower() == "y":
@@ -47,7 +47,7 @@ class Main:
                 else:
                     break
             else:
-                login_user(existing_user)
+                login_user(session, existing_user, Game)
 
 if __name__=='__main__':
     engine = create_engine('sqlite:///db/vapor_store.db')

@@ -1,8 +1,8 @@
 # Build out already existing data to test methods
 
-from models import Game, User
+from models import Game, User, User_library
 from datetime import datetime
-from sqlalchemy import create_engine, DateTime
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 print("Seeding Database...")
@@ -13,6 +13,7 @@ session = Session()
 
 session.query(User).delete()
 session.query(Game).delete()
+session.query(User_library).delete()
 
 games = [
     Game(
@@ -54,8 +55,11 @@ users = [
     )
 ]
 
-session.bulk_save_objects(games)
-session.bulk_save_objects(users)
+user_libraries=[User_library(user=users[0], game=games[0])]
+
+session.add_all(games)
+session.add_all(users)
+session.add_all(user_libraries)
 session.commit()
 
 print("Seeding Complete!")
