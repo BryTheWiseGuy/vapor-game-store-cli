@@ -1,11 +1,15 @@
 # Must be in lib directory and inside the shell to run app
 
 import sys
-from tabulate import tabulate
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import User, Game
-from helpers import create_user, view_user_library, view_user_profile, view_available_games, add_game_to_user_library
+from helpers import (
+    create_user, 
+    view_user_library, 
+    view_user_profile, 
+    view_available_games, 
+    add_game_to_user_library)
 
 class Main:
     def __init__(self):
@@ -57,7 +61,7 @@ class Main:
                 print(" ")
                 print(f"*** Welcome to Vapor Game Library, {existing_user.username}! ***")
                 print("---------------------------------------")
-                print("1. View Games Library") # Inomplete
+                print("1. View Games Library (completed/tested)")
                 print("2. View Available Games (completed/tested)")
                 print("3. Add New Game to Library") # Incomplete
                 print("4. View User Profile (completed/tested)")
@@ -66,7 +70,9 @@ class Main:
                 print(" ")
                 user_input = input('Please select from the options above >>> ')
                 if user_input == "1":
-                    view_user_library(existing_user)
+                    # Completed
+                    if view_user_library(existing_user):
+                        continue
                 elif user_input == "2":
                     # Completed
                     if view_available_games(session, existing_user, Game):
