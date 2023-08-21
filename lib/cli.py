@@ -63,7 +63,7 @@ class Main:
                 print("---------------------------------------")
                 print("1. View Games Library (completed/tested)")
                 print("2. View Available Games (completed/tested)")
-                print("3. Add New Game to Library") # Incomplete
+                print("3. Add New Game to Library (completed/tested)")
                 print("4. View User Profile (completed/tested)")
                 print("5. Logout (completed/tested)")
                 print("---------------------------------------")
@@ -78,7 +78,9 @@ class Main:
                     if view_available_games(session, existing_user, Game):
                         continue
                 elif user_input == "3":
-                    add_game_to_user_library(session, existing_user, Game)
+                    #Completed
+                    if add_game_to_user_library(session, existing_user, Game):
+                        continue
                 elif user_input == "4":
                     # Completed
                     if view_user_profile(self, existing_user):
