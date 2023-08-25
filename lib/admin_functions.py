@@ -373,79 +373,8 @@ def update_user_profile_data(session, User):
                     submenu_input = input("Please select from the above options >>> ")
                     if submenu_input.lower() == "1":
                         return update_username_sub_menu(session, user, User)
-                        # while True:
-                        #     username_pattern = r'[a-zA-Z0-9]{6,}$'
-                        #     new_username = input("Please enter a new username >>> ")
-                        #     while not re.match(username_pattern, new_username):
-                        #         print(" ")
-                        #         print("---------------------------------------")
-                        #         print("INVALID ENTRY: Please use at least 6 characters, letters, and numbers...")
-                        #         print("---------------------------------------")
-                        #         print(" ")
-                        #         new_username = input("Please enter a new username >>> ")
-                        #     existing_user = session.query(User).filter(User.username == new_username).first()
-                        #     if existing_user:
-                        #         print(" ")
-                        #         print("---------------------------------------")
-                        #         print("ERROR: Username is unavailable. Please enter a different username...")
-                        #         print("---------------------------------------")
-                        #         print(" ")
-                        #     else:
-                        #         confirm_input = input(f"Updating username to {new_username}. Is this correct? (y/n) >>> ")
-                        #         if confirm_input.lower() == "y":
-                        #             print(" ")
-                        #             print("---------------------------------------")
-                        #             print("Updating username...")
-                        #             print("---------------------------------------")
-                        #             print(" ")
-                        #             user.username = new_username
-                        #             session.commit()
-                        #             print("---------------------------------------")
-                        #             print("Username successfully updated!")
-                        #             print("---------------------------------------")
-                        #             print(" ")
-                        #             return return_to_admin_menu()
-                        #         elif confirm_input.lower() == "n":
-                        #             return handle_action_cancelled()
-                        #         else:
-                        #             return handle_invalid_entry_return()
                     elif submenu_input == "2":
-                        while True:
-                            email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-                            new_email = input("Please enter new email address >>> ")
-                            while not re.match(email_pattern, new_email):
-                                print(" ")
-                                print("---------------------------------------")
-                                print("INVALID ENTRY: Please enter a valid email address...")
-                                print("---------------------------------------")
-                                print(" ")
-                                new_email = input("Please enter new email address >>> ")
-                            existing_user = session.query(User).filter(User.email == new_email).first()
-                            if existing_user:
-                                print(" ")
-                                print("---------------------------------------")
-                                print("ERROR: Email has already been used. Please use a different email address...")
-                                print("---------------------------------------")
-                                print(" ")
-                            else:
-                                confirm_input = input(f"Updating email to {new_email}. Is this correct? (y/n) >>> ")
-                                if confirm_input.lower() == "y":
-                                    print(" ")
-                                    print("---------------------------------------")
-                                    print("Updating email address...")
-                                    print("---------------------------------------")
-                                    print(" ")
-                                    user.email = new_email
-                                    session.commit()
-                                    print("---------------------------------------")
-                                    print("Email address successfully updated!")
-                                    print("---------------------------------------")
-                                    print(" ")
-                                    return return_to_admin_menu()
-                                elif confirm_input.lower() == "n":
-                                    return handle_action_cancelled()
-                                else:
-                                    return handle_invalid_entry_return()
+                        return email_update_sub_menu(session, user, User)
                     elif submenu_input == "3":
                         return print_to_admin_menu()
                     else:
@@ -495,79 +424,8 @@ def update_user_profile_data(session, User):
                     submenu_input = input("Please select from the above options >>> ")
                     if submenu_input.lower() == "1":
                         return update_username_sub_menu(session, user, User)
-                        # while True:
-                        #     username_pattern = r'[a-zA-Z0-9]{6,}$'
-                        #     new_username = input("Please enter a new username >>> ")
-                        #     while not re.match(username_pattern, new_username):
-                        #         print(" ")
-                        #         print("---------------------------------------")
-                        #         print("INVALID ENTRY: Please use at least 6 characters, letters, and numbers...")
-                        #         print("---------------------------------------")
-                        #         print(" ")
-                        #         new_username = input("Please enter a new username >>> ")
-                        #     existing_user = session.query(User).filter(User.username == new_username).first()
-                        #     if existing_user:
-                        #         print(" ")
-                        #         print("---------------------------------------")
-                        #         print("ERROR: Username is unavailable. Please enter a different username...")
-                        #         print("---------------------------------------")
-                        #         print(" ")
-                        #     else:
-                        #         confirm_input = input(f"Updating username to {new_username}. Is this correct? (y/n) >>> ")
-                        #         if confirm_input.lower() == "y":
-                        #             print(" ")
-                        #             print("---------------------------------------")
-                        #             print("Updating username...")
-                        #             print("---------------------------------------")
-                        #             print(" ")
-                        #             user.username = new_username
-                        #             session.commit()
-                        #             print("---------------------------------------")
-                        #             print("Username successfully updated!")
-                        #             print("---------------------------------------")
-                        #             print(" ")
-                        #             return return_to_admin_menu()
-                        #         elif confirm_input.lower() == "n":
-                        #             return handle_action_cancelled()
-                        #         else:
-                        #             return handle_invalid_entry_return()
                     elif submenu_input == "2":
-                        while True:
-                            email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-                            new_email = input("Please enter new email address >>> ")
-                            while not re.match(email_pattern, new_email):
-                                print(" ")
-                                print("---------------------------------------")
-                                print("INVALID ENTRY: Please enter a valid email address...")
-                                print("---------------------------------------")
-                                print(" ")
-                                new_email = input("Please enter new email address >>> ")
-                            existing_user = session.query(User).filter(User.email == new_email).first()
-                            if existing_user:
-                                print(" ")
-                                print("---------------------------------------")
-                                print("ERROR: Email has already been used. Please use a different email...")
-                                print("---------------------------------------")
-                                print(" ")
-                            else:
-                                confirm_input = input(f"Updating email to {new_email}. Is this correct? (y/n) >>> ")
-                                if confirm_input.lower() == "y":
-                                    print(" ")
-                                    print("---------------------------------------")
-                                    print("Updating email...")
-                                    print("---------------------------------------")
-                                    print(" ")
-                                    user.email = new_email
-                                    session.commit()
-                                    print("---------------------------------------")
-                                    print("Email successfully updated!")
-                                    print("---------------------------------------")
-                                    print(" ")
-                                    return return_to_admin_menu()
-                                elif confirm_input.lower() == "n":
-                                    return handle_action_cancelled()
-                                else:
-                                    return handle_invalid_entry_return()
+                        return email_update_sub_menu(session, user, User)
                     elif submenu_input == "3":
                         return print_to_admin_menu()
                     else:
@@ -680,6 +538,44 @@ def update_username_sub_menu(session, data, User):
                 session.commit()
                 print("---------------------------------------")
                 print("Username successfully updated!")
+                print("---------------------------------------")
+                print(" ")
+                return return_to_admin_menu()
+            elif confirm_input.lower() == "n":
+                return handle_action_cancelled()
+            else:
+                return handle_invalid_entry_return()
+
+def email_update_sub_menu(session, data, User):
+    while True:
+        email_pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        new_email = input("Please enter new email address >>> ")
+        while not re.match(email_pattern, new_email):
+            print(" ")
+            print("---------------------------------------")
+            print("INVALID ENTRY: Please enter a valid email address...")
+            print("---------------------------------------")
+            print(" ")
+            new_email = input("Please enter new email address >>> ")
+        existing_user = session.query(User).filter(User.email == new_email).first()
+        if existing_user:
+            print(" ")
+            print("---------------------------------------")
+            print("ERROR: Email has already been used. Please use a different email address...")
+            print("---------------------------------------")
+            print(" ")
+        else:
+            confirm_input = input(f"Updating email to {new_email}. Is this correct? (y/n) >>> ")
+            if confirm_input.lower() == "y":
+                print(" ")
+                print("---------------------------------------")
+                print("Updating email address...")
+                print("---------------------------------------")
+                print(" ")
+                data.email = new_email
+                session.commit()
+                print("---------------------------------------")
+                print("Email address successfully updated!")
                 print("---------------------------------------")
                 print(" ")
                 return return_to_admin_menu()
