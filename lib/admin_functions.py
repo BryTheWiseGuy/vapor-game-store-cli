@@ -5,7 +5,6 @@ from user_functions import handle_exit
 
 def add_to_available_games(session, Game):
     default_pattern = r'[A-Za-z0-9][A-Za-z0-9 -]{2,}$'
-    genre_pattern = r'[A-Za-z][A-Za-z -]{2,}$'
     release_date_pattern = r"^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}$"
     
     def add_game(session, game):
@@ -14,10 +13,10 @@ def add_to_available_games(session, Game):
     
     while Game:
         print("Adding Game to Store...")
-        print("Please enter Q to return to main menu...")
+        print("---------------------------------------")
+        print("Please enter Q at any time to return to Admin Menu...")
+        print("---------------------------------------")
         print(" ")
-
-        # Game Title Entry/Validation
         
         game_title = input("Please enter the game title >>> ")
         if game_title.lower() == "q":
@@ -29,7 +28,7 @@ def add_to_available_games(session, Game):
             print("---------------------------------------")
             print(" ")
             game_title = input("Please enter the game title >>> ")
-            
+        
         while not re.match(default_pattern, game_title):
             print(" ")
             print("---------------------------------------")
@@ -37,21 +36,17 @@ def add_to_available_games(session, Game):
             print("---------------------------------------")
             print(" ")
             game_title = input("Please enter the game title >>> ")
-
-
-        #Game Genre Entry/Validation
         
         game_genre = input("Please enter the game genre >>> ")
-        while not re.match(genre_pattern, game_genre):
+        if game_genre.lower() == "q":
+            return True
+        while not re.match(default_pattern, game_genre):
             print(" ")
             print("---------------------------------------")
-            print("INVALID ENTRY: Please use only letters and hyphens...")
+            print("INVALID ENTRY: Please use only letters, hyphens, or numbers...")
             print("---------------------------------------")
             print(" ")
             game_genre = input("Please enter the game genre >>> ")    
-        
-        
-        # Game Platform Entry/Validation
         
         valid_platforms = ["NES", "SNES", "Nintendo 64", "Nintendo GameCube", 
                            "Nintendo Wii", "Nintendo Wii U", "Nintendo Switch", "Xbox",
@@ -65,6 +60,8 @@ def add_to_available_games(session, Game):
         print("---------------------------------------")
         print(" ")
         game_platform = input("Please enter the game platform (select from the list above) >>> ")
+        if game_platform.lower() == "q":
+            return True
         while game_platform not in valid_platforms:
             print(" ")
             print("---------------------------------------")
@@ -78,12 +75,11 @@ def add_to_available_games(session, Game):
             print("INVALID ENTRY: Please use only letters, hyphens, or numbers...")
             print("---------------------------------------")
             print(" ")
-            game_platform = input("Please enter your email address >>> ")
-        
-        
-        # Game Release Date Entry/Validation
+            game_platform = input("Please enter the game platform (select from the list above) >>> ")
         
         game_release_date = input("Please enter the game's release date (mm/dd/yyyy) >>> ")
+        if game_release_date.lower() == "q":
+            return True
         while not re.match(release_date_pattern, game_release_date):
             print(" ")
             print("---------------------------------------")
@@ -93,10 +89,9 @@ def add_to_available_games(session, Game):
             game_release_date = input("Please enter the game's release date (mm/dd/yyyy) >>> ")
         release_date = datetime.strptime(game_release_date, "%m/%d/%Y")
         
-        
-        # Game Publisher Entry/Validation
-        
         game_publisher = input("Please enter the game's publisher >>> ")
+        if game_publisher.lower() == "q":
+            return True
         while not re.match(default_pattern, game_publisher):
             print(" ")
             print("---------------------------------------")
@@ -117,12 +112,7 @@ def add_to_available_games(session, Game):
         confirm = input("Is the information above correct? (y/n) >>> ")
         print(" ")
         if confirm.lower() == "n":
-            print(" ")
-            print("---------------------------------------")
-            print("Game not added to store. Returning to admin menu...")
-            print("---------------------------------------")
-            print(" ")
-            return True
+            return handle_action_cancelled()
         elif confirm.lower() == "y":
             add_game(session, Game(name=game_title, genre=game_genre, platform=game_platform, release_date=release_date, publisher=game_publisher))
             menu_return = input("Game successfully added to store! Would you like to return to the admin menu? (y/n) >>> ")
@@ -136,7 +126,7 @@ def remove_from_available_games(session, Game):
         game_data = []
         headers = ["ID", "Name", "Genre", "Platform", "Release Date", "Publisher"]
         print(" ")
-        print("Please choose from the options below...")
+        print("Available Search Options")
         print("---------------------------------------")
         print("1. Search for game by ID")
         print("2. Search for game by Title")
@@ -174,13 +164,13 @@ def remove_from_available_games(session, Game):
                     print(" ")
                     return return_to_admin_menu()
                 elif confirm_input.lower() == "n":
-                    return handle_action_cancelled
+                    return handle_action_cancelled()
                 else:
-                    return handle_invalid_entry_return
+                    return handle_invalid_entry_return()
             else:
                 print(" ")
                 print("---------------------------------------")
-                print("ERROR: Unable to locate game. Returning to admin menu...")
+                print("ERROR: Unable to locate game. Returning to Admin Menu...")
                 print("---------------------------------------")
                 print(" ")
                 return True
@@ -214,13 +204,13 @@ def remove_from_available_games(session, Game):
                     print(" ")
                     return return_to_admin_menu()
                 elif confirm_input.lower() == "n":
-                    return handle_action_cancelled
+                    return handle_action_cancelled()
                 else:
-                    return handle_invalid_entry_return
+                    return handle_invalid_entry_return()
             else:
                 print(" ")
                 print("---------------------------------------")
-                print("ERROR: Unable to locate game. Returning to admin menu...")
+                print("ERROR: Unable to locate game. Returning to Admin Menu...")
                 print("---------------------------------------")
                 print(" ")
                 return True
@@ -239,7 +229,7 @@ def delete_user_profile(session, User, User_library):
         user_data = []
         headers = ["Username", "First Name", "Last Name", "Email"]
         print(" ")
-        print("Please choose from the options below...")
+        print("Available Search Options")
         print("---------------------------------------")
         print("1. Search for User by Username")
         print("2. Search for User by Email")
@@ -279,9 +269,9 @@ def delete_user_profile(session, User, User_library):
                     print(" ")
                     return return_to_admin_menu()
                 elif confirm_input.lower() == "n":
-                    return handle_action_cancelled
+                    return handle_action_cancelled()
                 else:
-                    return handle_invalid_entry_return
+                    return handle_invalid_entry_return()
             else:
                 print(" ")
                 print("---------------------------------------")
@@ -318,9 +308,9 @@ def delete_user_profile(session, User, User_library):
                     print(" ")
                     return return_to_admin_menu()
                 elif confirm_input.lower() == "n":
-                    return handle_action_cancelled
+                    return handle_action_cancelled()
                 else:
-                    return handle_invalid_entry_return
+                    return handle_invalid_entry_return()
             else:
                 print(" ")
                 print("---------------------------------------")
@@ -343,7 +333,7 @@ def update_user_profile_data(session, User):
         user_data = []
         headers = ["Username", "First Name", "Last Name", "Email"]
         print(" ")
-        print("Please choose from the options below...")
+        print("Available Search Options...")
         print("---------------------------------------")
         print("1. Search for User by Username")
         print("2. Search for User by Email")
@@ -374,7 +364,7 @@ def update_user_profile_data(session, User):
                     print(" ")
                     print(tabulate(user_data, headers=headers, tablefmt="pretty"))
                     print(" ")
-                    print("Please choose from the options below...")
+                    print("Available Update Options...")
                     print("---------------------------------------")
                     print("1. Update Username")
                     print("2. Update Email")
@@ -434,7 +424,7 @@ def update_user_profile_data(session, User):
                             if existing_user:
                                 print(" ")
                                 print("---------------------------------------")
-                                print("ERROR: Email has already been used. Please use a different email...")
+                                print("ERROR: Email has already been used. Please use a different email address...")
                                 print("---------------------------------------")
                                 print(" ")
                             else:
@@ -442,13 +432,13 @@ def update_user_profile_data(session, User):
                                 if confirm_input.lower() == "y":
                                     print(" ")
                                     print("---------------------------------------")
-                                    print("Updating email...")
+                                    print("Updating email address...")
                                     print("---------------------------------------")
                                     print(" ")
                                     user.email = new_email
                                     session.commit()
                                     print("---------------------------------------")
-                                    print("Email successfully updated!")
+                                    print("Email address successfully updated!")
                                     print("---------------------------------------")
                                     print(" ")
                                     return return_to_admin_menu()
