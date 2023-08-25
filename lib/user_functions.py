@@ -99,7 +99,7 @@ def view_user_library(User):
     while User:
         if User.user_library:
             user_games = []
-            headers = ["ID", "Name", "Genre", "Platform", "Release Date", "Publisher"]
+            headers = ["Name", "Genre", "Platform", "Release Date", "Publisher"]
             print(" ")
             print(f"Current game library for {User.username}: ")
             print(" ")
@@ -204,6 +204,7 @@ def add_game_to_user_library(session, User, Game):
             game = session.query(Game).filter(Game.id == int(search_input)).first()
             if game:
                 game_data.append([
+                    game.id,
                     game.name,
                     game.genre,
                     game.platform,

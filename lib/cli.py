@@ -106,7 +106,7 @@ class Main:
     def handle_admin_login(self, session):
         admin_interface_options = {
             "1": ("Add a Game to Available Games", lambda: add_to_available_games(session, Game)),
-            "2": ("Remove a Game from Available Games", lambda: remove_from_available_games(session, Game)),
+            "2": ("Remove a Game from Available Games", lambda: remove_from_available_games(session, Game, User)),
             "3": ("Delete User Account", lambda: delete_user_profile(session, User, User_library)),
             "4": ("Update User Account Data", lambda: update_user_profile_data(session, User)),
             "5": ("View All Users", lambda: view_all_users(session, User)),

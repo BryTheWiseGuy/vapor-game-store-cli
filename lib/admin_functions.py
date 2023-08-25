@@ -120,7 +120,7 @@ def add_to_available_games(session, Game):
             else:
                 handle_exit()
 
-def remove_from_available_games(session, Game):
+def remove_from_available_games(session, Game, User):
     while Game:
         game_data = []
         headers = ["ID", "Name", "Genre", "Platform", "Release Date", "Publisher"]
@@ -139,6 +139,7 @@ def remove_from_available_games(session, Game):
             game = session.query(Game).filter(Game.id == int(search_input)).first()
             if game:
                 game_data.append([
+                    game.id,
                     game.name,
                     game.genre,
                     game.platform,
@@ -148,7 +149,8 @@ def remove_from_available_games(session, Game):
                 print(" ")
                 print(tabulate(game_data, headers=headers, tablefmt="pretty"))
                 print(" ")
-                return game_removal(session, game)
+                users = session.query(User).all()
+                return game_removal(session, game, users)
             else:
                 print(" ")
                 print("---------------------------------------")
@@ -162,6 +164,7 @@ def remove_from_available_games(session, Game):
             game = session.query(Game).filter(Game.name == search_input).first()
             if game:
                 game_data.append([
+                    game.id,
                     game.name,
                     game.genre,
                     game.platform,
@@ -171,7 +174,8 @@ def remove_from_available_games(session, Game):
                 print(" ")
                 print(tabulate(game_data, headers=headers, tablefmt="pretty"))
                 print(" ")
-                return game_removal(session, game)
+                users = session.query(User).all()
+                return game_removal(session, game, users)
             else:
                 print(" ")
                 print("---------------------------------------")
@@ -441,7 +445,8 @@ def handle_action_cancelled():
     print(" ")
     return True
 
-def game_removal(session, game):
+def game_removal(session, game, users):
+    from db.models import User_library, Game
     confirm_input = input("Would you like to remove this game from the store? (y/n) >>> ")
     if confirm_input.lower() == "y":
         print(" ")
@@ -449,8 +454,24 @@ def game_removal(session, game):
         print("Removing game from store...")
         print("---------------------------------------")
         print(" ")
+        user_ids = [user.id for user in users if any(library.game == game for library in user.user_library)]
+
+        # Update the user_library table to remove the game for these users
+        session.execute(
+            User_library.__table__.delete()
+            .where(User_library.user_id.in_(user_ids))
+            .where(User_library.game_id == game.id)
+        )
+        session.commit()
+                
         session.delete(game)
         session.commit()
+        
+        remaining_games = session.query(Game).all()
+        for index, remaining_game in enumerate(remaining_games, start=1):
+            remaining_game.id = index
+        session.commit()
+
         print("---------------------------------------")
         print("Game successfully removed from the store!")
         print("---------------------------------------")
