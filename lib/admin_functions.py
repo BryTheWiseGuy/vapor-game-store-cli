@@ -7,6 +7,24 @@ def add_to_available_games(session, Game):
     default_pattern = r'[A-Za-z0-9][A-Za-z0-9 -]{2,}$'
     release_date_pattern = r"^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}$"
     
+    def game_data_validation(pattern, data):
+        input_string = ""
+        if data == game_title:
+            input_string = "Please enter the game title >>> "
+        elif data == game_genre:
+            input_string = "Please enter the game genre >>> "
+        elif data == game_platform:
+            input_string = "Please enter the game platform (select from the list above) >>> "
+        elif data == game_publisher:
+            input_string = "Please enter the game's publisher >>> "
+        while not re.match(pattern, data):
+                print(" ")
+                print("---------------------------------------")
+                print("INVALID ENTRY: Please use only letters, hyphens, or numbers...")
+                print("---------------------------------------")
+                print(" ")
+                data = input(input_string)
+                             
     def add_game(session, game):
         session.add(game)
         session.commit()
@@ -18,6 +36,7 @@ def add_to_available_games(session, Game):
         print("---------------------------------------")
         print(" ")
         
+        # Game Title Entry/Validation
         game_title = input("Please enter the game title >>> ")
         if game_title.lower() == "q":
             return True
@@ -28,26 +47,15 @@ def add_to_available_games(session, Game):
             print("---------------------------------------")
             print(" ")
             game_title = input("Please enter the game title >>> ")
+        game_data_validation(default_pattern, game_title)
         
-        while not re.match(default_pattern, game_title):
-            print(" ")
-            print("---------------------------------------")
-            print("INVALID ENTRY: Please use only letters, hyphens, or numbers...")
-            print("---------------------------------------")
-            print(" ")
-            game_title = input("Please enter the game title >>> ")
-        
+        # Game Genre Entry/Validation
         game_genre = input("Please enter the game genre >>> ")
         if game_genre.lower() == "q":
             return True
-        while not re.match(default_pattern, game_genre):
-            print(" ")
-            print("---------------------------------------")
-            print("INVALID ENTRY: Please use only letters, hyphens, or numbers...")
-            print("---------------------------------------")
-            print(" ")
-            game_genre = input("Please enter the game genre >>> ")    
+        game_data_validation(default_pattern, game_genre)    
         
+        # Game Platform Entry/Validation
         valid_platforms = ["NES", "SNES", "Nintendo 64", "Nintendo GameCube", 
                            "Nintendo Wii", "Nintendo Wii U", "Nintendo Switch", "Xbox",
                            "Xbox 360", "Xbox One S/X", "Xbox Series X/S", "PlayStation",
@@ -69,14 +77,9 @@ def add_to_available_games(session, Game):
             print("---------------------------------------")
             print(" ")
             game_platform = input("Please enter the game platform (select from the list above) >>> ")            
-        while not re.match(default_pattern, game_platform):
-            print(" ")
-            print("---------------------------------------")
-            print("INVALID ENTRY: Please use only letters, hyphens, or numbers...")
-            print("---------------------------------------")
-            print(" ")
-            game_platform = input("Please enter the game platform (select from the list above) >>> ")
+        game_data_validation(default_pattern, game_platform)
         
+        # Game Release Date Entry/Validation
         game_release_date = input("Please enter the game's release date (mm/dd/yyyy) >>> ")
         if game_release_date.lower() == "q":
             return True
@@ -89,17 +92,13 @@ def add_to_available_games(session, Game):
             game_release_date = input("Please enter the game's release date (mm/dd/yyyy) >>> ")
         release_date = datetime.strptime(game_release_date, "%m/%d/%Y")
         
+        # Game Publisher Entry/Validation
         game_publisher = input("Please enter the game's publisher >>> ")
         if game_publisher.lower() == "q":
             return True
-        while not re.match(default_pattern, game_publisher):
-            print(" ")
-            print("---------------------------------------")
-            print("INVALID ENTRY: Please use only letters, hyphens, or numbers...")
-            print("---------------------------------------")
-            print(" ")
-            game_publisher = input("Please enter the game's publisher >>> ")
+        game_data_validation(default_pattern, game_publisher)
         
+        # Game Data Confirmation and Entry to Database
         print(" ")
         print("---------------------------------------")
         print(f"Game Title: {game_title}")
