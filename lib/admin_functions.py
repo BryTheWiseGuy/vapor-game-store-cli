@@ -148,24 +148,7 @@ def remove_from_available_games(session, Game):
                 print(" ")
                 print(tabulate(game_data, headers=headers, tablefmt="pretty"))
                 print(" ")
-                confirm_input = input("Would you like to remove this game from the store? (y/n) >>> ")
-                if confirm_input.lower() == "y":
-                    print(" ")
-                    print("---------------------------------------")
-                    print("Removing game from store...")
-                    print("---------------------------------------")
-                    print(" ")
-                    session.delete(game)
-                    session.commit()
-                    print("---------------------------------------")
-                    print("Game successfully removed from the store!")
-                    print("---------------------------------------")
-                    print(" ")
-                    return return_to_admin_menu()
-                elif confirm_input.lower() == "n":
-                    return handle_action_cancelled()
-                else:
-                    return handle_invalid_entry_return()
+                return game_removal(session, game)
             else:
                 print(" ")
                 print("---------------------------------------")
@@ -188,24 +171,7 @@ def remove_from_available_games(session, Game):
                 print(" ")
                 print(tabulate(game_data, headers=headers, tablefmt="pretty"))
                 print(" ")
-                confirm_input = input("Would you like to remove this game from the store? (y/n) >>> ")
-                if confirm_input.lower() == "y":
-                    print(" ")
-                    print("---------------------------------------")
-                    print("Removing game from store...")
-                    print("---------------------------------------")
-                    print(" ")
-                    session.delete(game)
-                    session.commit()
-                    print("---------------------------------------")
-                    print("Game successfully removed from the store!")
-                    print("---------------------------------------")
-                    print(" ")
-                    return return_to_admin_menu()
-                elif confirm_input.lower() == "n":
-                    return handle_action_cancelled()
-                else:
-                    return handle_invalid_entry_return()
+                return game_removal(session, game)
             else:
                 print(" ")
                 print("---------------------------------------")
@@ -472,6 +438,26 @@ def handle_action_cancelled():
     print("---------------------------------------")
     print(" ")
     return True
+
+def game_removal(session, game):
+    confirm_input = input("Would you like to remove this game from the store? (y/n) >>> ")
+    if confirm_input.lower() == "y":
+        print(" ")
+        print("---------------------------------------")
+        print("Removing game from store...")
+        print("---------------------------------------")
+        print(" ")
+        session.delete(game)
+        session.commit()
+        print("---------------------------------------")
+        print("Game successfully removed from the store!")
+        print("---------------------------------------")
+        print(" ")
+        return return_to_admin_menu()
+    elif confirm_input.lower() == "n":
+        return handle_action_cancelled()
+    else:
+        return handle_invalid_entry_return()
 
 def user_removal(session, user, user_libraries):
     confirm_input = input("Would you like to remove this user from the database? (y/n) >>> ")
