@@ -118,7 +118,7 @@ games = [
     Game(
         name="Horizon: Forbidden West",
         genre="Action RPG",
-        platform="PlayStation",
+        platform="PlayStation 5",
         release_date=datetime(
             year=2022,
             month=2,
@@ -129,7 +129,7 @@ games = [
     Game(
         name="Baldur's Gate 3",
         genre="Role-Playing",
-        platform="Windows",
+        platform="Windows PC",
         release_date=datetime(
             year=2023,
             month=8,
@@ -151,7 +151,7 @@ games = [
     Game(
         name="Valheim",
         genre="Survival Sandbox",
-        platform="Windows",
+        platform="Windows PC",
         release_date=datetime(
             year=2021,
             month=2,
@@ -217,7 +217,7 @@ games = [
     Game(
         name="Final Fantasy VII Remake",
         genre="Action RPG",
-        platform="PlayStation",
+        platform="PlayStation 5",
         release_date=datetime(
             year=2020,
             month=4,
@@ -228,7 +228,7 @@ games = [
     Game(
         name="Valorant",
         genre="Tactical Shooter",
-        platform="Windows",
+        platform="Windows PC",
         release_date=datetime(
             year=2020,
             month=6,
