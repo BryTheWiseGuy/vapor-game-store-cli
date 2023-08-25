@@ -1,4 +1,4 @@
-import re, sys
+import re
 from tabulate import tabulate
 from datetime import datetime
 from user_functions import handle_exit

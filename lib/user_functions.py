@@ -99,12 +99,13 @@ def view_user_library(User):
     while User:
         if User.user_library:
             user_games = []
-            headers = ["Name", "Genre", "Platform", "Release Date", "Publisher"]
+            headers = ["ID", "Name", "Genre", "Platform", "Release Date", "Publisher"]
             print(" ")
             print(f"Current game library for {User.username}: ")
             print(" ")
             for game in User.user_library:
                 user_games.append([
+                    game.game.id,
                     game.game.name,
                     game.game.genre,
                     game.game.platform,
@@ -241,14 +242,14 @@ def add_game_to_user_library(session, User, Game):
                 else:
                     print(" ")
                     print("---------------------------------------")
-                    print("This game is already in your game library!")
+                    print("ERROR: This game is already in your game library.")
                     print("---------------------------------------")
                     print(" ")
                     continue
             else:
                 print(" ")
                 print("---------------------------------------")
-                print("Unable to locate game: Returning to selection menu...")
+                print("ERROR: Unable to locate game. Returning to selection menu...")
                 print("---------------------------------------")
                 print(" ")
                 continue
@@ -258,6 +259,7 @@ def add_game_to_user_library(session, User, Game):
             game = session.query(Game).filter(Game.name == search_input).first()
             if game:
                 game_data.append([
+                    game.id,
                     game.name,
                     game.genre,
                     game.platform,
@@ -294,7 +296,140 @@ def add_game_to_user_library(session, User, Game):
                 else:
                     print(" ")
                     print("---------------------------------------")
-                    print("This game is already in your game library!")
+                    print("ERROR: This game is already in your game library.")
+                    print("---------------------------------------")
+                    print(" ")
+                    continue
+            else:
+                print(" ")
+                print("---------------------------------------")
+                print("ERROR: Unable to locate game. Returning to selection menu...")
+                print("---------------------------------------")
+                print(" ")
+                continue
+        elif user_input == "3":
+            return print_to_user_interface()
+        else:
+            print(" ")
+            print("---------------------------------------")
+            print("INVALID ENTRY: Please select an option 1-3")
+            print("---------------------------------------")
+            print(" ")
+            continue
+
+def remove_game_from_user_library(session, User, Game):
+    while User:
+        game_data = []
+        headers = ["ID", "Name", "Genre", "Platform", "Release Date", "Publisher"]
+        print(" ")
+        print("Available Search Options...")
+        print("---------------------------------------")
+        print("1. Search for game by ID")
+        print("2. Search for game by Title")
+        print("3. Return to User Interface")
+        print("---------------------------------------")
+        print(" ")
+        user_input = input("Please select the desired search option >>> ")
+        if user_input == "1":
+            print(" ")
+            search_input = input("Please enter a valid game ID >>> ")
+            game = session.query(Game).filter(Game.id == int(search_input)).first()
+            if game:
+                game_data.append([
+                    game.id,
+                    game.name,
+                    game.genre,
+                    game.platform,
+                    game.release_date,
+                    game.publisher
+                ])
+                user_game_exists = session.query(User_library).filter_by(user=User, game=game).first()
+                if user_game_exists:
+                    print(" ")
+                    print(tabulate(game_data, headers=headers, tablefmt="pretty"))
+                    print(" ")
+                    existing_user_library = session.query(User_library).filter_by(user=User, game=game).first()
+                    comfirm_input = input("Would you like to remove this game from your library? (y/n) >>> ")
+                    if comfirm_input.lower() == "y":
+                        print(" ")
+                        print("---------------------------------------")
+                        print("Removing game from library...")
+                        print("---------------------------------------")
+                        print(" ")
+                        session.delete(existing_user_library)
+                        session.commit()
+                        print("---------------------------------------")
+                        print("Game successfully removed from library!")
+                        print("---------------------------------------")
+                        print(" ")
+                        repeat_input = input("Would you like to remove another game? (y/n) >>> ")
+                        if repeat_input.lower() == "y":
+                            continue
+                        elif repeat_input.lower() == "n":
+                            return print_to_user_interface()
+                        else:
+                            return handle_invalid_entry_return()
+                    else:
+                        return handle_action_cancelled()
+                else:
+                    print(" ")
+                    print("---------------------------------------")
+                    print("ERROR: This game is not currently in your game library.")
+                    print("---------------------------------------")
+                    print(" ")
+                    continue
+            else:
+                print(" ")
+                print("---------------------------------------")
+                print("ERROR: Unable to locate game. Returning to selection menu...")
+                print("---------------------------------------")
+                print(" ")
+                continue
+        elif user_input == "2":
+            print(" ")
+            search_input = input("Please enter a valid game title >>> ")
+            game = session.query(Game).filter(Game.name == search_input).first()
+            if game:
+                game_data.append([
+                    game.id,
+                    game.name,
+                    game.genre,
+                    game.platform,
+                    game.release_date,
+                    game.publisher
+                ])
+                user_game_exists = session.query(User_library).filter_by(user=User, game=game).first()
+                if user_game_exists:
+                    print(" ")
+                    print(tabulate(game_data, headers=headers, tablefmt="pretty"))
+                    print(" ")
+                    existing_user_library = session.query(User_library).filter_by(user=User, game=game).first()
+                    comfirm_input = input("Would you like to remove this game from your library? (y/n) >>> ")
+                    if comfirm_input.lower() == "y":
+                        print(" ")
+                        print("---------------------------------------")
+                        print("Removing game from library...")
+                        print("---------------------------------------")
+                        print(" ")
+                        session.delete(existing_user_library)
+                        session.commit()
+                        print("---------------------------------------")
+                        print("Game successfully removed from library!")
+                        print("---------------------------------------")
+                        print(" ")
+                        repeat_input = input("Would you like to remove another game? (y/n) >>> ")
+                        if repeat_input.lower() == "y":
+                            continue
+                        elif repeat_input.lower() == "n":
+                            return print_to_user_interface()
+                        else:
+                            return handle_invalid_entry_return()
+                    else:
+                        return handle_action_cancelled()
+                else:
+                    print(" ")
+                    print("---------------------------------------")
+                    print("ERROR: This game is not currently in your game library.")
                     print("---------------------------------------")
                     print(" ")
                     continue

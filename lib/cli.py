@@ -9,6 +9,7 @@ from user_functions import (
     view_user_profile, 
     view_available_games, 
     add_game_to_user_library,
+    remove_game_from_user_library,
     handle_exit)
 from admin_functions import (
     add_to_available_games,
@@ -74,8 +75,9 @@ class Main:
                 "1": ("View Your Game Library", lambda: view_user_library(existing_user)),
                 "2": ("View Available Games", lambda: view_available_games(session, existing_user, Game)),
                 "3": ("Add New Game to Your Library", lambda: add_game_to_user_library(session, existing_user, Game)),
-                "4": ("View Profile Information", lambda: view_user_profile(existing_user)),
-                "5": ("Logout", lambda: Main.main_menu(self))    
+                "4": ("Remove A Game from Your Library", lambda: remove_game_from_user_library(session, existing_user, Game)),
+                "5": ("View Profile Information", lambda: view_user_profile(existing_user)),
+                "6": ("Logout", lambda: Main.main_menu(self))    
             }
             
             while existing_user:
@@ -91,7 +93,7 @@ class Main:
                 user_input = input('Please select from the options above >>> ')
                 if user_input in user_interface_options:
                     selected_choice = user_interface_options[user_input]
-                    if user_input == "5":
+                    if user_input == "6":
                         selected_choice[1]()
                     else:
                         selected_choice[1]()
@@ -99,7 +101,7 @@ class Main:
                 else:
                     print(" ")
                     print("---------------------------------------")
-                    print("INVALID ENTRY: Please select from options 1-5...")
+                    print("INVALID ENTRY: Please select from options 1-6...")
                     print("---------------------------------------")
                     print(" ")
     
@@ -142,7 +144,7 @@ class Main:
                 else:
                     print(" ")
                     print("---------------------------------------")
-                    print("INVALID ENTRY: Please choose from options 1-5...")
+                    print("INVALID ENTRY: Please choose from options 1-6...")
                     print("---------------------------------------")
                     print(" ")
                     continue
