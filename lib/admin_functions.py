@@ -251,26 +251,7 @@ def delete_user_profile(session, User, User_library):
                 print(" ")
                 print(tabulate(user_data, headers=headers, tablefmt="pretty"))
                 print(" ")
-                confirm_input = input("Would you like to remove this user from the database? (y/n) >>> ")
-                if confirm_input.lower() == "y":
-                    print(" ")
-                    print("---------------------------------------")
-                    print("Removing user from the database...")
-                    print("---------------------------------------")
-                    print(" ")
-                    for user_library in user_libraries:
-                        session.delete(user_library)
-                    session.delete(user)
-                    session.commit()
-                    print("---------------------------------------")
-                    print("User successfully removed from the database!")
-                    print("---------------------------------------")
-                    print(" ")
-                    return return_to_admin_menu()
-                elif confirm_input.lower() == "n":
-                    return handle_action_cancelled()
-                else:
-                    return handle_invalid_entry_return()
+                return user_removal(session, user, user_libraries)
             else:
                 print(" ")
                 print("---------------------------------------")
@@ -289,27 +270,11 @@ def delete_user_profile(session, User, User_library):
                     user.last_name,
                     user.email,
                 ])
+                user_libraries = session.query(User_library).filter(User_library.user_id == user.id).all()
                 print(" ")
                 print(tabulate(user_data, headers=headers, tablefmt="pretty"))
                 print(" ")
-                confirm_input = input("Would you like to remove this user from the database? (y/n) >>> ")
-                if confirm_input.lower() == "y":
-                    print(" ")
-                    print("---------------------------------------")
-                    print("Removing user from the database...")
-                    print("---------------------------------------")
-                    print(" ")
-                    session.delete(user)
-                    session.commit()
-                    print("---------------------------------------")
-                    print("User successfully removed from the database!")
-                    print("---------------------------------------")
-                    print(" ")
-                    return return_to_admin_menu()
-                elif confirm_input.lower() == "n":
-                    return handle_action_cancelled()
-                else:
-                    return handle_invalid_entry_return()
+                return user_removal(session, user, user_libraries)
             else:
                 print(" ")
                 print("---------------------------------------")
@@ -507,6 +472,28 @@ def handle_action_cancelled():
     print("---------------------------------------")
     print(" ")
     return True
+
+def user_removal(session, user, user_libraries):
+    confirm_input = input("Would you like to remove this user from the database? (y/n) >>> ")
+    if confirm_input.lower() == "y":
+        print(" ")
+        print("---------------------------------------")
+        print("Removing user from the database...")
+        print("---------------------------------------")
+        print(" ")
+        for user_library in user_libraries:
+            session.delete(user_library)
+        session.delete(user)
+        session.commit()
+        print("---------------------------------------")
+        print("User successfully removed from the database!")
+        print("---------------------------------------")
+        print(" ")
+        return return_to_admin_menu()
+    elif confirm_input.lower() == "n":
+        return handle_action_cancelled()
+    else:
+        return handle_invalid_entry_return()
 
 def update_username_sub_menu(session, data, User):
     while True:
