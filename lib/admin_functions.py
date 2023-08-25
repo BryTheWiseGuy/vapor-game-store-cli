@@ -400,6 +400,8 @@ def view_all_users(session, User):
     print(" ")
     return return_to_admin_menu()
 
+# *** DRY Code Functions Below *** #
+
 def return_to_admin_menu():
     while True:
         return_input = input("Press Y to return to Admin Menu, or press Q to quit >>> ")

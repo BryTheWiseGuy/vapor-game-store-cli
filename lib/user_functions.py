@@ -15,7 +15,7 @@ def create_user(session, User):
     
     while User:
         print("Creating user profile...")
-        print("Please enter Q to return to main menu...")
+        print("Please enter Q at any time to return to main menu...")
         print(" ")
 
         first_name = input("Please enter your first name >>> ")
@@ -31,6 +31,8 @@ def create_user(session, User):
             first_name = input("Please enter your first name >>> ")
             
         last_name = input("Please enter your last name >>> ")
+        if last_name.lower() == "q":
+            return True
         while not re.match(name_pattern, last_name):
             print(" ")
             print("---------------------------------------")
@@ -40,6 +42,8 @@ def create_user(session, User):
             last_name = input("Please enter your last name >>> ")    
         
         email = input("Please enter your email address >>> ")
+        if email.lower() == "q":
+            return True
         while session.query(User).filter(User.email == email).first():
             print(" ")
             print("---------------------------------------")
@@ -57,6 +61,8 @@ def create_user(session, User):
             email = input("Please enter your email address >>> ")
         
         username = input("Please create a username >>> ")
+        if username.lower() == "q":
+            return True
         while session.query(User).filter(User.username == username).first():
             print(" ")
             print("---------------------------------------")
@@ -80,17 +86,12 @@ def create_user(session, User):
         print(" ")
         confirm = input("Is the information above correct? (y/n) >>> ")
         if confirm.lower() == "n":
-            print(" ")
-            print("---------------------------------------")
-            print("Profile creation cancelled. Returning to main menu...")
-            print("---------------------------------------")
-            print(" ")
-            break
+            return handle_action_cancelled()
         elif confirm.lower() == "y":
             add_user(session, User(first_name=first_name, last_name=last_name, email=email, username=username))
             menu_return = input("User profile created! Would you like to return to the main menu? (y/n) >>> ")
             if menu_return.lower() == "y":
-                break
+                return True
             else:
                 handle_exit()
 
@@ -116,7 +117,7 @@ def view_user_library(User):
         else:
             print(" ")
             print("---------------------------------------")
-            print("User Library is empty: Please add games to your library to access this feature.")
+            print("ERROR: User Library is empty. Please add games to your library to access this feature.")
             print("---------------------------------------")
             print(" ")
             return return_to_user_interface()
@@ -126,14 +127,14 @@ def view_user_library(User):
 def view_available_games(session, User, Game):
     while User:
         print(" ")
-        print("Searching game catalogue...")
+        print("Available Display Options...")
         print("---------------------------------------")
         print("1. Display all games")
         print("2. Display games by platform")
         print("3. Return to User Interface")
         print("---------------------------------------")
         print(" ")
-        search_input = input("Please choose a search option >>> ")
+        search_input = input("Please select the desired display option >>> ")
         if search_input == "1":
             games = session.query(Game).all()
             headers = ["ID", "Name", "Genre", "Platform", "Release Date", "Publisher"]
@@ -175,7 +176,7 @@ def view_available_games(session, User, Game):
             else:
                 print(" ")
                 print("---------------------------------------")
-                print("Please enter a valid platform...")
+                print("INVALID ENTRY: Please enter a valid platform...")
                 print("---------------------------------------")
                 print(" ")
                 continue
@@ -189,14 +190,14 @@ def add_game_to_user_library(session, User, Game):
         game_data = []
         headers = ["ID", "Name", "Genre", "Platform", "Release Date", "Publisher"]
         print(" ")
-        print("Please choose from the options below...")
+        print("Available Search Options...")
         print("---------------------------------------")
         print("1. Search for game by ID")
         print("2. Search for game by Title")
         print("3. Return to User Interface")
         print("---------------------------------------")
         print(" ")
-        user_input = input("Please select the desired search option, or press 3 to return to the user menu >>> ")
+        user_input = input("Please select the desired search option >>> ")
         if user_input == "1":
             print(" ")
             search_input = input("Please enter a valid game ID >>> ")
@@ -299,7 +300,7 @@ def add_game_to_user_library(session, User, Game):
             else:
                 print(" ")
                 print("---------------------------------------")
-                print("Unable to locate game: Returning to selection menu...")
+                print("ERROR: Unable to locate game. Returning to selection menu...")
                 print("---------------------------------------")
                 print(" ")
                 continue
@@ -308,7 +309,7 @@ def add_game_to_user_library(session, User, Game):
         else:
             print(" ")
             print("---------------------------------------")
-            print("Invalid Entry: Please select an option 1-3")
+            print("INVALID ENTRY: Please select an option 1-3")
             print("---------------------------------------")
             print(" ")
             continue
@@ -333,7 +334,7 @@ def view_user_profile(User):
         print(" ")
         return return_to_user_interface()
     
-# *** Repetitive Code Functions Below *** #
+# *** DRY Code Functions Below *** #
 
 def return_to_user_interface():
     while True:
