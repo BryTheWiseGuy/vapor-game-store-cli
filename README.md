@@ -23,22 +23,44 @@ To install and use this application, please follow the steps below:
 
 ## Usage
 
-**NOTE:** This section will be broken down by individual file, outlining the main purpose of each file and breaking down each individual function. If you decide to implement additional features and encounter any bugs, run the `debug.py` file while in the lib directory to enter into ipdb and begin debugging code.
+**NOTE:** This section will be broken down by individual file, outlining the main purpose of each file and giving short description each individual function. If you decide to implement additional features and encounter any bugs, run the `debug.py` file while in the lib directory to enter into ipdb and begin debugging code.
 
 ### `cli.py`
 
-This file executes the `Main()` script for the application upon running `cli.py` and starts the database session. It includes 3 main functions that utilize imported functions from `user_functions.py` and `admin_functions.py`. All menu's in this file are rendered and executed through the use of python dictionaries, pairing option keys with tuples of a description and a lambda function.
+This file executes the `Main()` script for the application upon running `cli.py` and starts the database session. It includes 3 main functions that utilize imported functions from `user_functions.py` and `admin_functions.py`. Other imports include database models from `models.py` and `sqlalchemy` imports for running and persisting database CRUD operations. All menu's in this file are rendered and executed through the use of python dictionaries, pairing option keys with tuples of a description and a lambda function.
 
 1. `main_menu()`
     - This function is responsible for rendering the menu displayed on application launch. It handles user inputs to either login, create a profile, access the admin interface, or exit the application. **NOTE:** Password for the admin menu is "steam"
 
 2. `handle_login(self, session)`
-    - This function takes a username input and validates in their is a user with that username. If not it prompts the user to create a profile or it logs the user in and displays the user interface menu. The user interface menu allows the user to view their library, view available games, add or remove a game from their library, and view their profile information. Logging out takes the user to the main menu.
+    - This function requests a username and validates that there is a user with that username. If not it prompts the user to create a profile. If the username is present in the users table, it displays the user interface menu. The user interface menu allows the user to view their game library, view available games, add or remove a game from their game library, and view their profile information.
 
 3. `handle_admin_login(self, session)`
-    - This function requests a password for entry, and then displays a menu of admin options on the menu. If the password is entered incorrectly, the user is direct back to the main menu. In the admin menu a user can add or remove games from the table of available games, delete or update a users profile, or view a table of all current user profiles. Logging out takes the user back to the main menu.
+    - This function requests a password for entry, and then displays a menu of admin options. In the admin menu a user can add or remove games from the table of available games, delete or update a users profile, or view a table of all current user profiles.
 
 ### `user_functions.py`
+
+This file contains all of the functions that operate the user interface menu. It also includes the function that allows the user to create a profile. I've placed several helper functions at the bottom of the file that house any repetitive code to help keep the application DRY. Imports for this file include `re`, `sys`, `tabulate`, and the `User_library` model. `re` is utilized for regex validation logic, `sys` is used to execute `sys.exit()` when a user chooses to exit the application, and `tabulate` is used for cleaner table visualization. All functions in this file operate inside of while loops to handle invalid entries or repeat a process (such as adding multiple games to their user library).
+
+1. `create_user`
+    - This function allows a user to create a profile that is persisted to the `users` table in the database. It prompts the user to enter in various required data, and uses regex validation logic to ensure table entries are within the specified parameters.
+
+2. `view_user_library`
+    - This function takes in a User model, cross examines the `user_library` join table, and then tabulates the users game library data into a table that is displayed to the user.
+
+3. `view_available_games`
+    - This function gives the user different options to search for games and queries the games table to access that data. User's can either view all games at once, or view games based on their platform. Data is tabulated into tables displayed to the user. 
+
+4. `add_game_to_user_library`
+    - This function gives the user different options to search for a game, queries the games table for that game, queries the user_library table to see if the game is already in the user's game library, and adds the game to the user's library if the game is not already present.
+
+5. `remove_game_from_user_library`
+    - This function works similar to the previous function, but reverses some of the logic to remove a game from the users game library.
+
+6. `view_user_profile`
+    - This function takes in a User model, tabulates the user's profile data into a table, and displays that data to the user.
+
+### `admin_functions.py`
 
 
 
