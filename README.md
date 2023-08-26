@@ -43,26 +43,46 @@ This file executes the `Main()` script for the application upon running `cli.py`
 This file contains all of the functions that operate the user interface menu. It also includes the function that allows the user to create a profile. I've placed several helper functions at the bottom of the file that house any repetitive code to help keep the application DRY. Imports for this file include `re`, `sys`, `tabulate`, and the `User_library` model. `re` is utilized for regex validation logic, `sys` is used to execute `sys.exit()` when a user chooses to exit the application, and `tabulate` is used for cleaner table visualization. All functions in this file operate inside of while loops to handle invalid entries or repeat a process (such as adding multiple games to their user library).
 
 1. `create_user`
-    - This function allows a user to create a profile that is persisted to the `users` table in the database. It prompts the user to enter in various required data, and uses regex validation logic to ensure table entries are within the specified parameters.
+    - This function allows a user to create a profile record that is persisted to the `users` table in the database. It prompts the user to enter in various required user data, and uses regex validation logic to ensure table entries are within the specified parameters.
 
 2. `view_user_library`
-    - This function takes in a User model, cross examines the `user_library` join table, and then tabulates the users game library data into a table that is displayed to the user.
+    - This function takes in a `User` model, cross examines the `user_library` join table, and then tabulates the users game library data into a table that is displayed to the user.
 
 3. `view_available_games`
-    - This function gives the user different options to search for games and queries the games table to access that data. User's can either view all games at once, or view games based on their platform. Data is tabulated into tables displayed to the user. 
+    - This function gives the user different options to search for games and queries the `games` table to access that data. User's can either view all games at once, or view games based on their platform. Data is tabulated into tables displayed to the user. 
 
 4. `add_game_to_user_library`
-    - This function gives the user different options to search for a game, queries the games table for that game, queries the user_library table to see if the game is already in the user's game library, and adds the game to the user's library if the game is not already present.
+    - This function gives the user different options to search for a game, queries the `games` table for that game, queries the `user_library` table to see if the game is already in the user's game library, and adds the game to the user's library if the game is not already present.
 
 5. `remove_game_from_user_library`
     - This function works similar to the previous function, but reverses some of the logic to remove a game from the users game library.
 
 6. `view_user_profile`
-    - This function takes in a User model, tabulates the user's profile data into a table, and displays that data to the user.
+    - This function takes in a `User` model, tabulates the user's profile data into a table, and displays that data to the user.
 
 ### `admin_functions.py`
 
+This file contains all of the functions that operate the admin menu. I've placed several helper functions at the bottom of the file that house any repetitive code to help keep the application DRY. Imports for this file include `re`, `tabulate`, `datetime`, and the `handle_exit()` from the `user_functions.py` file. `datetime` is imported to handle release date entries when adding new games, and `handle_exit()` is imported to facilitate exiting the app and keeping the code DRY. Several functions operate in while loops to facilitate the use of the Python `continue` statement.
 
+1. `add_to_available_games`
+    - This functions allows the admin to add games to the `games` table. Similar to a user creating a profile, this function prompts the admin to enter in various required game data, uses regex validation to ensure data is within specific parameters, and then persists the created record to the `games` table.
+
+2. `remove_from_available_games`
+    - This function works similar to the previous function, but utilizes different logic to remove a game from the `games` table. It also cross checks the `user_library` table and handles removing the game from all user libraries via the `game_removal` helper function.
+
+3. `delete_user_profile_data`
+    - This function allows the admin to search for a user profile by username or email, and then removes that user from the `users` table via the `user_removal` helper function.
+
+4. `update_user_profile_data`
+    - This function allows the admin to seach for a user profile by username or email, and then updates the username or email via the `update_username_sub_menu` helper function or the `email_update_sub_menu` helper function.
+
+5. `view_all_users`
+    - This function queries the `users` table for all users and then tabulates the data into a table displayed to the admin.
+
+6. `game_removal` and `user_removal`
+    - These helper functions utilize complex logic to remove games and users from each respective table. The `user_removal` function facilitates the removal of not only the user, but also all associated entries in the `user_library` table. The `game_removal` function operates in the same manner. Due to the nature of needing to remove record entries from the `user_library` table via foreign keys, the function utilizes raw SQL expressions to accomplish the task. It then adjusts remaining primary keys in the `games` table down by one.
+
+### `models.py`  
 
 ### What Goes into a README?
 
