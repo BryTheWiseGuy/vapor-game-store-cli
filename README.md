@@ -12,14 +12,14 @@ Vapor Game Store CLI is a command line interface made with Python and SQLAlchemy
 
 To install and use this application, please follow the steps below:
 
-    1. Fork this repository, and clone it to your own virtual environment
-    2. Once cloning is complete, navigate to the directory and run `pipenv install`
-        - This should install ipdb, alembic, sqlalchemy, and tabulate v0.9.0
-    3. Once dependencies are installed open up the code in your preferred editor
-    4. Run `pipenv shell` to enter into the Python shell
-    5. The database should have a fresh seed already applied, but to run a new seed move down into lib/db by entering `cd lib/db` and run `python seed.py`
-        - CAUTION: Running a new database seed will clear out any information added to the database since the last database seed
-    6. Once confirmation of the database seed is received, enter `cd ..` to move back into the lib directory and run `python cli.py` to start the application
+1. Fork this repository, and clone it to your own virtual environment
+2. Once cloning is complete, navigate to the directory and run `pipenv install`
+    - This should install ipdb, alembic, sqlalchemy, and tabulate v0.9.0
+3. Once dependencies are installed open up the code in your preferred editor
+4. Run `pipenv shell` to enter into the Python shell
+5. The database should have a fresh seed already applied, but to run a new seed move down into lib/db by entering `cd lib/db` and run `python seed.py`
+    - CAUTION: Running a new database seed will clear out any information added to the database since the last database seed
+6. Once confirmation of the database seed is received, enter `cd ..` to move back into the lib directory and run `python cli.py` to start the application
 
 ## Usage
 
