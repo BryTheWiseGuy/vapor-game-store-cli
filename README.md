@@ -6,6 +6,10 @@ Vapor Game Store CLI is a command line interface made with Python and SQLAlchemy
 
 ## Visuals
 
+### Entity Relationship Diagram
+
+![Database ERD](db-erd.jpg)
+
 ## Installation
 
 **NOTE:** Python v3.8 is required to use this application. Please see the official Python documentation for instructions on how to ensure Python v3.8 is installed and configured on your machine.
@@ -98,6 +102,37 @@ This file contains all table models utilized in the CLI database. It includes va
 ### `seed.py`
 
 This file contains seed data for the database. It seeds 20 different `Game` models to the database and two `User` models to the database that can be utilized for database testing and application usage testing. It also establishes a few relationships between the `User` and `Game` models in the `user_library` join table for testing functions operating on the join table.
+
+## Contributing
+
+Pull requests are welcome! Please feel free to reach out to me if there are specific features you'd like to see implemented!  
+For major changes, please utilize the support email above to discuss what you would like to change.  
+All pushes to main branch will be made upon my approval.  
+Please make sure to run and update tests as appropriate.
+
+## License
+
+MIT License
+
+Copyright (c) 2023 Brian Ashman
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ### What Goes into a README?
 
