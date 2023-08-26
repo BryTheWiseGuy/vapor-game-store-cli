@@ -8,12 +8,12 @@ Vapor Game Store CLI is a command line interface made with Python and SQLAlchemy
 
 ## Installation
 
-**NOTE:** Python v3.8 is required to use this application. Please see the official Python documentation for instructions on how to ensure Python v3.8 is installed and configured on your machine
+**NOTE:** Python v3.8 is required to use this application. Please see the official Python documentation for instructions on how to ensure Python v3.8 is installed and configured on your machine.
 
 To install and use this application, please follow the steps below:
 
 1. Fork this repository, and clone it to your own virtual environment
-2. Once cloning is complete, navigate to the main directory and run `pipenv install`
+2. Once cloning is complete, navigate to the applications directory and run `pipenv install`
     - This should install ipdb, alembic, sqlalchemy, and tabulate v0.9.0
 3. Once dependencies are installed open up the code in your preferred editor
 4. Run `pipenv shell` to enter into the Python shell
@@ -23,7 +23,7 @@ To install and use this application, please follow the steps below:
 
 ## Usage
 
-**NOTE:** This section will be broken down by individual file, outlining the main purpose of each file and giving short description each individual function. If you decide to implement additional features and encounter any bugs, run the `debug.py` file while in the lib directory to enter into ipdb and begin debugging code.
+**NOTE:** This section will be broken down by individual file, outlining the main purpose of each file and giving short descriptions of each individual function. If you decide to implement additional features and encounter any bugs, run the `debug.py` file while in the `lib` directory to enter into ipdb and begin debugging code.
 
 ### `cli.py`
 
@@ -82,7 +82,22 @@ This file contains all of the functions that operate the admin menu. I've placed
 6. `game_removal` and `user_removal`
     - These helper functions utilize complex logic to remove games and users from each respective table. The `user_removal` function facilitates the removal of not only the user, but also all associated entries in the `user_library` table. The `game_removal` function operates in the same manner. Due to the nature of needing to remove record entries from the `user_library` table via foreign keys, the function utilizes raw SQL expressions to accomplish the task. It then adjusts remaining primary keys in the `games` table down by one.
 
-### `models.py`  
+### `models.py`
+
+This file contains all table models utilized in the CLI database. It includes various imports from `sqlalchemy` to create models, form join tables, and define base models and entries.
+
+1. `User`
+    - This model creates the `users` table and defines base entries. It also sets up the user relationship to the `user_library` join table.
+
+2. `Game`
+    - This model creates the `games` table and defines base entries. It also sets up the game relationship to the `user_library` join table.
+
+3. `User_library`
+    - This model creates the `user_library` table, and sets up foreign key relationships to `Game` and `User` records.
+
+### `seed.py`
+
+This file contains seed data for the database. It seeds 20 different `Game` models to the database and two `User` models to the database that can be utilized for database testing and application usage testing. It also establishes a few relationships between the `User` and `Game` models in the `user_library` join table for testing functions operating on the join table.
 
 ### What Goes into a README?
 

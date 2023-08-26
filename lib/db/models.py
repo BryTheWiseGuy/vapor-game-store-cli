@@ -4,7 +4,6 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-# If multiple users are able to log into this app, would I need separate User and Users tables?
 class User(Base):
     __tablename__='users'
     
