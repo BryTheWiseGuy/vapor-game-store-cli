@@ -13,17 +13,34 @@ Vapor Game Store CLI is a command line interface made with Python and SQLAlchemy
 To install and use this application, please follow the steps below:
 
 1. Fork this repository, and clone it to your own virtual environment
-2. Once cloning is complete, navigate to the directory and run `pipenv install`
+2. Once cloning is complete, navigate to the main directory and run `pipenv install`
     - This should install ipdb, alembic, sqlalchemy, and tabulate v0.9.0
 3. Once dependencies are installed open up the code in your preferred editor
 4. Run `pipenv shell` to enter into the Python shell
-5. The database should have a fresh seed already applied, but to run a new seed move down into lib/db by entering `cd lib/db` and run `python seed.py`
-    - CAUTION: Running a new database seed will clear out any information added to the database since the last database seed
-6. Once confirmation of the database seed is received, enter `cd ..` to move back into the lib directory and run `python cli.py` to start the application
+5. The database should have a fresh seed already applied, but to run a new seed move down into the `lib/db` directory and run `python seed.py`
+    - **CAUTION:** Running a new database seed will clear out any information added to the database since the last database seed
+6. Once confirmation of the database seed is received, move back into the `lib` directory and run `python cli.py` to start the application
 
 ## Usage
 
-**NOTE:** This section will be broken down by individual file, outlining the main purpose of each file and breaking down each individual function. If you decide to implement additional features and encounter any bugs, run the `debug.py` file while in the lib directory to enter into ipdb and begin debugging code. 
+**NOTE:** This section will be broken down by individual file, outlining the main purpose of each file and breaking down each individual function. If you decide to implement additional features and encounter any bugs, run the `debug.py` file while in the lib directory to enter into ipdb and begin debugging code.
+
+### `cli.py`
+
+This file executes the `Main()` script for the application upon running `cli.py` and starts the database session. It includes 3 main functions that utilize imported functions from `user_functions.py` and `admin_functions.py`. All menu's in this file are rendered and executed through the use of python dictionaries, pairing option keys with tuples of a description and a lambda function.
+
+1. `main_menu()`
+    - This function is responsible for rendering the menu displayed on application launch. It handles user inputs to either login, create a profile, access the admin interface, or exit the application. **NOTE:** Password for the admin menu is "steam"
+
+2. `handle_login(self, session)`
+    - This function takes a username input and validates in their is a user with that username. If not it prompts the user to create a profile or it logs the user in and displays the user interface menu. The user interface menu allows the user to view their library, view available games, add or remove a game from their library, and view their profile information. Logging out takes the user to the main menu.
+
+3. `handle_admin_login(self, session)`
+    - This function requests a password for entry, and then displays a menu of admin options on the menu. If the password is entered incorrectly, the user is direct back to the main menu. In the admin menu a user can add or remove games from the table of available games, delete or update a users profile, or view a table of all current user profiles. Logging out takes the user back to the main menu.
+
+### `user_functions.py`
+
+
 
 ### What Goes into a README?
 
