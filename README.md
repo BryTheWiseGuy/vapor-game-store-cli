@@ -10,6 +10,9 @@ Vapor Game Store CLI is a command line interface made with Python and SQLAlchemy
 
 ![Database ERD](db-erd.jpg)
 
+### Application Showcase Video
+
+
 ## Installation
 
 **NOTE:** Python v3.8 is required to use this application. Please see the official Python documentation for instructions on how to ensure Python v3.8 is installed and configured on your machine.
@@ -22,7 +25,7 @@ To install and use this application, please follow the steps below:
 3. Once dependencies are installed open up the code in your preferred editor
 4. Run `pipenv shell` to enter into the Python shell
 5. The database should have a fresh seed already applied, but to run a new seed move down into the `lib/db` directory and run `python seed.py`
-    - **CAUTION:** Running a new database seed will clear out any information added to the database since the last database seed
+    - **CAUTION:** Running a new database seed will clear out any new data added to the database since the last database seed
 6. Once confirmation of the database seed is received, move back into the `lib` directory and run `python cli.py` to start the application
 
 ## Usage
@@ -133,36 +136,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-### What Goes into a README?
-
-This README should serve as a template for your own- go through the important
-files in your project and describe what they do. Each file that you edit
-(you can ignore your Alembic files) should get at least a paragraph. Each
-function should get a small blurb.
-
-You should descibe your actual CLI script first, and with a good level of
-detail. The rest should be ordered by importance to the user. (Probably
-functions next, then models.)
-
-Screenshots and links to resources that you used throughout are also useful to
-users and collaborators, but a little more syntactically complicated. Only add
-these in if you're feeling comfortable with Markdown.
-
-***
-
-## Conclusion
-
-A lot of work goes into a good CLI, but it all relies on concepts that you've
-practiced quite a bit by now. Hopefully this template and guide will get you
-off to a good start with your Phase 3 Project.
-
-Happy coding!
-
-***
-
-## Resources
-
-- [Setting up a respository - Atlassian](https://www.atlassian.com/git/tutorials/setting-up-a-repository)
-- [Create a repo- GitHub Docs](https://docs.github.com/en/get-started/quickstart/create-a-repo)
-- [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
