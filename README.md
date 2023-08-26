@@ -12,6 +12,7 @@ Vapor Game Store CLI is a command line interface made with Python and SQLAlchemy
 
 ### Application Showcase Video
 
+[![Vapor Game Store Showcase](https://img.youtube.com/vi/74Uh826upro/0.jpg)](https://www.youtube.com/watch?v=74Uh826upro)
 
 ## Installation
 
