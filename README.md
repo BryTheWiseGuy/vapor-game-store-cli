@@ -4,6 +4,8 @@
 
 Vapor Game Store CLI is a command line interface made with Python and SQLAlchemy. The application is modeled as video game store. Users can create a profile, login to view currently available games, view their game library, add or remove games from their game library, and view their profile information. The application also incorporates administrative actions, where an administrative user can add or remove games from the list of available games in the database, delete or update a users profile in the database, or view a list of all user profiles that have been created.
 
+![Vapor GIF](vapor-game-store-gif.gif)
+
 ## Visuals
 
 ### Entity Relationship Diagram
