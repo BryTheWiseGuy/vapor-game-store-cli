@@ -18,7 +18,7 @@ Vapor Game Store CLI is a command line interface made with Python and SQLAlchemy
 
 ## Installation
 
-**NOTE:** Python v3.8 is required to use this application. Please see the official Python documentation for instructions on how to ensure Python v3.8 is installed and configured on your machine.
+**NOTE:** Python v3.8 and `pipenv` are required to use this application. Please see the official Python and `pipenv` documentation for instructions on how to ensure these are both installed and configured on your machine.
 
 To install and use this application, please follow the steps below:
 
