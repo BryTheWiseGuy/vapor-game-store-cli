@@ -12,6 +12,7 @@ class User(Base):
     last_name = Column(String(), nullable=False)
     username = Column(String(), unique=True, nullable=False)
     email = Column(String(), unique=True, nullable=False)
+    
     user_library = relationship('User_library', back_populates='user')
     
     def __repr__(self):
